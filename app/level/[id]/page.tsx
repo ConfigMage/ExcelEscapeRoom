@@ -11,6 +11,7 @@ import { StarRating } from '@/components/StarRating'
 import { useGameState } from '@/lib/gameState'
 import { levels } from '@/lib/levels'
 import { calculateStars } from '@/lib/utils'
+import { evaluateFormula, isFormula, formatResult } from '@/lib/formulaEvaluator'
 
 export default function LevelPage() {
   const params = useParams()
@@ -58,9 +59,41 @@ export default function LevelPage() {
 
     // Check each input cell against expected solution
     for (const [cellId, expectedValue] of Object.entries(level.solution)) {
-      const userValue = cellValues[cellId]?.toString().trim().toLowerCase()
-      const expected = expectedValue.toString().trim().toLowerCase()
-      if (userValue !== expected) {
+      const userValue = cellValues[cellId]?.toString().trim()
+      const userValueLower = userValue.toLowerCase()
+
+      // Handle array of acceptable answers
+      const acceptableAnswers = Array.isArray(expectedValue) ? expectedValue : [expectedValue]
+
+      let isCorrect = false
+
+      for (const expected of acceptableAnswers) {
+        const expectedLower = expected.toString().trim().toLowerCase()
+
+        // Direct match
+        if (userValueLower === expectedLower) {
+          isCorrect = true
+          break
+        }
+
+        // If user entered a formula, check if it evaluates to the expected numeric value
+        if (isFormula(userValue)) {
+          const evaluatedResult = evaluateFormula(userValue, cellValues)
+          const formattedResult = formatResult(evaluatedResult)
+
+          // Check if the evaluated result matches any of the expected values
+          for (const exp of acceptableAnswers) {
+            const expClean = exp.toString().replace(/[$,%]/g, '').trim()
+            if (formattedResult === expClean || formattedResult.toLowerCase() === expClean.toLowerCase()) {
+              isCorrect = true
+              break
+            }
+          }
+          if (isCorrect) break
+        }
+      }
+
+      if (!isCorrect) {
         return false
       }
     }
@@ -144,6 +177,7 @@ export default function LevelPage() {
         <FormulaBar
           selectedCell={selectedCellData}
           onValueChange={(value) => selectedCell && handleCellChange(selectedCell, value)}
+          allCellValues={cellValues}
         />
 
         {/* Spreadsheet Grid */}

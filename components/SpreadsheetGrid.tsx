@@ -74,6 +74,7 @@ export const SpreadsheetGrid = memo(function SpreadsheetGrid({
                   isComplete={isComplete}
                   onSelect={onCellSelect}
                   onChange={onCellChange}
+                  allCellValues={cellValues}
                 />
               )
             })}

@@ -36,7 +36,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      B6: '984',
+      B6: ['984', '=SUM(B2:B5)', '=B2+B3+B4+B5'],
     },
     hints: [
       'The formula is only adding some of the cells...',
@@ -77,8 +77,8 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      A6: '32',
-      A7: '64',
+      A6: ['32', '=A5*2'],
+      A7: ['64', '=A6*2'],
     },
     hints: [
       'Look at how each value relates to the one before it',
@@ -116,7 +116,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      D3: '45',
+      D3: ['45', '=C3*3', '=B3*3'],
     },
     hints: [
       'Start with A1 (10) and follow each reference step by step',
@@ -171,7 +171,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      C7: 'Marketing',
+      C7: ['Marketing', '=VLOOKUP(B7,A2:C5,3,FALSE)', '=VLOOKUP(103,A2:C5,3,FALSE)'],
     },
     hints: [
       'VLOOKUP searches the first column of a range for a value',
@@ -272,7 +272,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      D6: '10%',
+      D6: ['10%', '10', '0.1'],
     },
     hints: [
       'The INDEX range and MATCH ranges need to align. Is the column MATCH looking in the right place?',
@@ -376,7 +376,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      B8: '3700',
+      B8: ['3700', '=1500+2200'],
     },
     hints: [
       'SUMPRODUCT multiplies arrays and sums. Boolean TRUE=1, FALSE=0',
@@ -431,7 +431,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      C7: '32',
+      C7: ['32', '=2*A7+B7', '=A7*2+B7'],
     },
     hints: [
       'Test basic operations on each row. A+B? A*B? Something with both?',
@@ -592,7 +592,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      B7: '80',
+      B7: ['80', '=75-20+25', '=C6-C4+C5'],
     },
     hints: [
       'Work through each variable. Start with x = A1*2 = ?',

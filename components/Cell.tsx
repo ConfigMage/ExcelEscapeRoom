@@ -2,6 +2,7 @@
 
 import { memo } from 'react'
 import { CellData } from '@/lib/types'
+import { isFormula, evaluateFormula, formatResult } from '@/lib/formulaEvaluator'
 
 interface CellProps {
   cell: CellData
@@ -11,6 +12,7 @@ interface CellProps {
   isComplete: boolean
   onSelect: (cellId: string) => void
   onChange: (cellId: string, value: string) => void
+  allCellValues?: Record<string, string>
 }
 
 export const Cell = memo(function Cell({
@@ -21,8 +23,25 @@ export const Cell = memo(function Cell({
   isComplete,
   onSelect,
   onChange,
+  allCellValues = {},
 }: CellProps) {
   const isEditable = cell.type === 'input' && !isComplete
+
+  // Get display value - evaluate formula if needed
+  const getDisplayValue = () => {
+    if (cell.displayFormula) return cell.formula || value
+
+    // For input cells with formulas, show evaluated result when not selected
+    if (cell.type === 'input' && isFormula(value) && !isSelected) {
+      const result = evaluateFormula(value, allCellValues)
+      return formatResult(result)
+    }
+
+    return value
+  }
+
+  const displayValue = getDisplayValue()
+  const hasFormula = isFormula(value)
 
   const getCellBackground = () => {
     if (isComplete && cell.type === 'input') {
@@ -52,7 +71,7 @@ export const Cell = memo(function Cell({
       `}
       onClick={() => onSelect(cellId)}
     >
-      {isEditable ? (
+      {isEditable && isSelected ? (
         <input
           type="text"
           value={value}
@@ -60,10 +79,20 @@ export const Cell = memo(function Cell({
           className={`
             w-full h-full px-2 text-center bg-transparent
             focus:outline-none
-            ${cell.formula ? 'font-mono text-gray-500 text-sm' : ''}
+            ${hasFormula ? 'font-mono text-blue-600 text-sm' : ''}
           `}
           onClick={(e) => e.stopPropagation()}
+          autoFocus
         />
+      ) : isEditable ? (
+        <span
+          className={`
+            px-2 truncate w-full text-center
+            ${hasFormula ? 'text-gray-700' : ''}
+          `}
+        >
+          {displayValue}
+        </span>
       ) : (
         <span
           className={`
@@ -71,7 +100,7 @@ export const Cell = memo(function Cell({
             ${cell.formula ? 'font-mono text-gray-500 text-sm' : ''}
           `}
         >
-          {cell.displayFormula ? cell.formula : value}
+          {displayValue}
         </span>
       )}
     </div>

@@ -25,7 +25,7 @@ export interface Level {
   parTime: number // in seconds
   story: string
   grid: CellData[][]
-  solution: Record<string, string>
+  solution: Record<string, string | string[]> // Can be single value or array of acceptable answers
   hints: [string, string, string]
 }
 
