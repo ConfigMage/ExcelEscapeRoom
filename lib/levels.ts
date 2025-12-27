@@ -216,7 +216,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      C4: 'Yellow',
+      C4: ['Yellow', 'yellow'],
     },
     hints: [
       'Look at the rules: Green ≥90, Yellow 70-89, Red <70',
@@ -316,7 +316,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      B6: 'F',
+      B6: ['F', 'f'],
     },
     hints: [
       'Walk through the IF logic: >=90=A, >=80=B, >=70=C, >=60=D... what about below 60?',
@@ -481,7 +481,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      B5: 'B1',
+      B5: ['B1', 'b1'],
     },
     hints: [
       "Trace backwards. Which #REF! doesn't depend on another error cell?",
@@ -662,7 +662,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      B10: 'Frank',
+      B10: ['Frank', 'frank'],
     },
     hints: [
       'FILTER returns only Sales dept rows. How many?',
@@ -718,7 +718,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      B9: '100',
+      B9: ['100', '=100', '=B2'],
     },
     hints: [
       "Each iteration: A1 moves halfway toward 100. What's the limit?",
@@ -788,7 +788,7 @@ export const levels: Level[] = [
       ],
     ],
     solution: {
-      B10: 'B2',
+      B10: ['B2', 'b2'],
     },
     hints: [
       'Floating point errors occur with decimal multiplication. Which cell?',
